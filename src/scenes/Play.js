@@ -12,7 +12,9 @@ class Play extends Phaser.Scene{
         this.load.image('rocket', './assets/rocket.png');
         // this.load.image('spaceship', './assets/spaceship.png');
         this.load.image('spaceship', './assets/flying-miku32.png');
-        this.load.image('starfield', './assets/starfield.png');
+        this.load.image('starfield', './assets/sidewalk.png');
+        this.load.image('buildings', './assets/buildings.png');
+        this.load.image('sky', './assets/sky.png');
 
     // load spritesheet
         this.load.spritesheet('explosion', './assets/explosion.png', {frameWidth: 64, frameHeight: 32, startFrame: 0, endFrame: 9});
@@ -21,16 +23,22 @@ class Play extends Phaser.Scene{
     create(){
         // this.add.text(20, 20, "Rocket Patrol Play"); // for testing
         // place tile sprite on background
-        this.starfield = this.add.tileSprite(0, 0, 640, 480, 'starfield').setOrigin(0, 0);
+        this.sky = this.add.tileSprite(0, 0, 934, 500, 'sky').setOrigin(0, 0);
+        this.buildings = this.add.tileSprite(0, 0, 934, 500, 'buildings').setOrigin(0, 0);
+        this.starfield = this.add.tileSprite(0, 0, 934, 500, 'starfield').setOrigin(0, 0);
+
+
+
+
         // this.starfield2 = this.add.tileSprite(0, 0, 640, 480, 'starfield').setOrigin(0, 0);
         // magic numbers
         // white rectangle boarders
-        this.add.rectangle(5, 5, 630, 32, 0xFFFFFF).setOrigin(0, 0);
-        this.add.rectangle(5, 443, 630, 32, 0xFFFFFF).setOrigin(0, 0);
-        this.add.rectangle(5, 5, 32, 455, 0xFFFFFF).setOrigin(0, 0);
-        this.add.rectangle(603, 5, 32, 455, 0xFFFFFF).setOrigin(0, 0);
+        // this.add.rectangle(5, 5, 630, 32, 0xFFFFFF).setOrigin(0, 0);
+        // this.add.rectangle(5, 443, 630, 32, 0xFFFFFF).setOrigin(0, 0);
+        // this.add.rectangle(5, 5, 32, 455, 0xFFFFFF).setOrigin(0, 0);
+        // this.add.rectangle(603, 5, 32, 455, 0xFFFFFF).setOrigin(0, 0);
         // green UI background
-        this.add.rectangle(37, 42, 566, 64, 0x00FF00).setOrigin(0, 0);
+        // this.add.rectangle(37, 42, 566, 64, 0x00FF00).setOrigin(0, 0);
 
         // add rocket, player one
         this.p1Rocket = new Rocket(this, game.config.width/2 - 8, 431, 'rocket', 0).setScale(0.5, 0.5).setOrigin(0, 0);
@@ -48,7 +56,7 @@ class Play extends Phaser.Scene{
         });
 
         // define control keys
-        keyF = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.F);
+        keyL = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.L);
         keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
         keyRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
         keyUP = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP); // easter egg
@@ -78,7 +86,7 @@ class Play extends Phaser.Scene{
         scoreConfig.fixedWidth = 0;
         this.clock = this.time.delayedCall(game.settings.gameTimer, () => {
             this.add.text(game.config.width/2, game.config.height/2, 'GAME OVER', scoreConfig).setOrigin(0.5);
-            this.add.text(game.config.width/2, game.config.height/2 + 64, '(F)ire to Restart', scoreConfig).setOrigin(0.5);
+            this.add.text(game.config.width/2, game.config.height/2 + 64, '(L)ove to Restart', scoreConfig).setOrigin(0.5);
             this.gameOver = true;
         }, null, this);
 
@@ -86,14 +94,13 @@ class Play extends Phaser.Scene{
 
     update(){ // ideally every frame
         // check key input for restart, keyUP for one handed play
-        if (this.gameOver && (Phaser.Input.Keyboard.JustDown(keyF) || Phaser.Input.Keyboard.JustDown(keyUP))){
-        // if (this.gameOver && Phaser.Input.Keyboard.JustDown(keyF)){
-            // this.scene.restart(this.p1Score);
+        if (this.gameOver && (Phaser.Input.Keyboard.JustDown(keyL) || Phaser.Input.Keyboard.JustDown(keyUP))){
             this.scene.start("menuScene");
         }
 
         this.starfield.tilePositionX -= 4;
-        // this.starfield2.tilePositionX -= 2;
+        this.buildings.tilePositionX -= 2;
+        this.sky.tilePositionX -= 1;
 
         if (!this.gameOver){
             this.p1Rocket.update(); // update rocket
@@ -122,6 +129,8 @@ class Play extends Phaser.Scene{
             // this.ship01.reset();
             this.shipExplode(this.ship01);
         }
+
+        trashcan = false * [] + "burrito"
 
     }
 

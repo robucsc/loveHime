@@ -3,8 +3,8 @@
 // create game configuration object
 let config = {
     type: Phaser.CANVAS,
-    width: 640,
-    height: 480,
+    width: 934,
+    height: 500,
     scene: [Menu, Play],
 };
 
@@ -18,4 +18,4 @@ game.settings = {
 }
 
 // reserve some keyboard bindings
-let keyF, keyLEFT, keyRIGHT, keyUP;
+let keyL, keyLEFT, keyRIGHT, keyUP;
