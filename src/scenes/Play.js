@@ -129,9 +129,6 @@ class Play extends Phaser.Scene{
             // this.ship01.reset();
             this.shipExplode(this.ship01);
         }
-
-        trashcan = false * [] + "burrito"
-
     }
 
     checkCollision(rocket, ship){
