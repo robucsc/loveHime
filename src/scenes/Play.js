@@ -1,4 +1,6 @@
 class Play extends Phaser.Scene{
+
+
     constructor() {
         super("playScene");
     }
@@ -21,6 +23,11 @@ class Play extends Phaser.Scene{
     }
 
     create(){
+
+        this.top = 100; // original 132
+        this.middle = 196;
+        this.bottom = 260;
+
         // this.add.text(20, 20, "Rocket Patrol Play"); // for testing
         // place tile sprite on background
         this.sky = this.add.tileSprite(0, 0, 934, 500, 'sky').setOrigin(0, 0);
@@ -44,9 +51,9 @@ class Play extends Phaser.Scene{
         this.p1Rocket = new Rocket(this, game.config.width/2 - 8, 431, 'rocket', 0).setScale(0.5, 0.5).setOrigin(0, 0);
 
         // add spaceships (x3)
-        this.ship01 = new Spaceship(this, game.config.width + 192, 132, 'spaceship', 0, 30).setOrigin(0, 0);
-        this.ship02 = new Spaceship(this, game.config.width + 96, 196, 'spaceship', 0, 20).setOrigin(0, 0);
-        this.ship03 = new Spaceship(this, game.config.width + 0, 260, 'spaceship', 0, 10).setOrigin(0, 0);
+        this.ship01 = new Spaceship(this, game.config.width + 192, this.top, 'spaceship', 0, 30, false).setOrigin(0, 0);
+        this.ship02 = new Spaceship(this, game.config.width + 96, this.middle, 'spaceship', 0, 20, null).setOrigin(0, 0);
+        this.ship03 = new Spaceship(this, game.config.width + 0, this.bottom, 'spaceship', 0, 10, true).setOrigin(0, 0);
 
         // animation config
         this.anims.create({
@@ -97,7 +104,7 @@ class Play extends Phaser.Scene{
         if (this.gameOver && (Phaser.Input.Keyboard.JustDown(keyL) || Phaser.Input.Keyboard.JustDown(keyUP))){
             this.scene.start("menuScene");
         }
-
+        // console.log(this.time.now);
         this.starfield.tilePositionX -= 4;
         this.buildings.tilePositionX -= 2;
         this.sky.tilePositionX -= 1;
@@ -109,27 +116,34 @@ class Play extends Phaser.Scene{
             this.ship03.update();
         }
 
+        if (this.time.now > 5000 && this.time.now < 10000) {
+            this.crissCross(this.ship01);
+            this.crissCross(this.ship02);
+            this.crissCross(this.ship03);
+        }
+
+        if (this.boom){ // explosion movement
+            this.boom.x -= game.settings.spaceshipSpeed - 2;
+        }
+
         // check collision
         if (this.checkCollision(this.p1Rocket, this.ship03)){
             console.log('ship 03 hit');
             this.p1Rocket.reset();
             // this.ship03.reset();
             this.shipExplode(this.ship03);
-            this.boom.x -= 5;
         }
         if (this.checkCollision(this.p1Rocket, this.ship02)){
             console.log('ship 02 hit');
             this.p1Rocket.reset();
             // this.ship02.reset();
             this.shipExplode(this.ship02);
-            this.boom.x -= 5;
         }
         if (this.checkCollision(this.p1Rocket, this.ship01)){
             console.log('ship 01 hit');
             this.p1Rocket.reset();
             // this.ship01.reset();
             this.shipExplode(this.ship01);
-            this.boom.x -= 5;
         }
     }
 
@@ -147,21 +161,42 @@ class Play extends Phaser.Scene{
     }
 
     shipExplode(ship){
-        ship.alpha = 0;                             // temporarily hid ship
+        // ship.alpha = 0;                             // temporarily hid ship
         // create explosion sprite at ship's position
-        // let boom = this.add.sprite(ship.x, ship.y, 'explosion').setOrigin(0, 0);
         this.boom = this.add.sprite(ship.x, ship.y, 'explosion').setOrigin(0, 0);
 
         this.boom.anims.play('explode');            // play explode animation
         this.boom.on('animationcomplete', () => {   // callback after animation completes
-            ship.reset();                           // reset ship position
-            ship.alpha = 1;                         // make ship visible again
-            this.boom.destroy();                    // remove explosion sprite
-            this.boom.x += 1;
+           // ship.reset();                           // reset ship position
+          //  ship.alpha = 1;                         // make ship visible again
+           this.boom.destroy();                    // remove explosion sprite
         });
         this.p1Score += ship.points;
         this.scoreLeft.text = this.p1Score;
         this.sound.play('sfx_explosion');
+    }
+
+    crissCross(ship){ // special thanks to Darcy for helping me with this one!!!
+        if (ship.direction) {
+            // make ship go up
+            ship.y -= .5;
+            console.log(ship.y);
+
+            if (ship.y <= this.top) {
+                console.log(ship.direction);
+                ship.direction = false;
+                console.log(ship.direction);
+            }
+            return;
+
+        } else if (!ship.direction){
+            // make ship go down
+            ship.y += .5;
+            if (ship.y >= this.bottom) {
+                ship.direction = true;
+            }
+            return;
+        }
     }
 }
 

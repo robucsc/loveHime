@@ -12,19 +12,20 @@ class Rocket extends Phaser.GameObjects.Sprite{
     }
     update(){
         // left/right movement
-        if (!this.isFiring){
-            if (keyLEFT.isDown && this.x >= 47){ // is the player moving past the left boundry
-                this.x -= 2;
-            } else if (keyRIGHT.isDown && this.x <= 598) {
-                this.x += 2;
-            }
-        }
+        // if (!this.isFiring){
+        //     if (keyLEFT.isDown && this.x >= 47){ // is the player moving past the left boundry
+        //         this.x -= 2;
+        //     } else if (keyRIGHT.isDown && this.x <= 598) {
+        //         this.x += 2;
+        //     }
+        // }
+        this.moveHeart();
+
         // fire button
         if ((Phaser.Input.Keyboard.JustDown(keyL) || Phaser.Input.Keyboard.JustDown(keyUP)) && !this.isFiring){
                 this.isFiring = true;
                 this.sfxRocket.play(); // play sfx
         }
-
 
         // if fired move bullet up
         if (this.isFiring && this.y >= 108){
@@ -39,6 +40,14 @@ class Rocket extends Phaser.GameObjects.Sprite{
     reset(){
         this.isFiring = false;
         this.y = 431;
+    }
+
+    moveHeart(){
+        if (keyLEFT.isDown && this.x >= 47){ // is the player moving past the left boundry
+            this.x -= 2;
+        } else if (keyRIGHT.isDown && this.x <= 598) {
+            this.x += 2;
+        }
     }
 
 }
