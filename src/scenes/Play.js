@@ -9,7 +9,7 @@ class Play extends Phaser.Scene{
 
     preload(){
     // load images/tile sprites
-        this.load.image('rocket', './assets/rocket.png');
+        this.load.image('rocket', './assets/redHeartInverted.png');
         // this.load.image('spaceship', './assets/spaceship.png');
         this.load.image('spaceship', './assets/flying-miku32.png');
         this.load.image('starfield', './assets/sidewalk.png');
@@ -17,7 +17,7 @@ class Play extends Phaser.Scene{
         this.load.image('sky', './assets/sky.png');
 
     // load spritesheet
-        this.load.spritesheet('explosion', './assets/explosion.png', {frameWidth: 64, frameHeight: 32, startFrame: 0, endFrame: 9});
+        this.load.spritesheet('explosion', './assets/love.png', {frameWidth: 64, frameHeight: 32, startFrame: 0, endFrame: 9});
     }
 
     create(){
@@ -115,19 +115,21 @@ class Play extends Phaser.Scene{
             this.p1Rocket.reset();
             // this.ship03.reset();
             this.shipExplode(this.ship03);
-            // this.boom.x += 5;
+            this.boom.x -= 5;
         }
         if (this.checkCollision(this.p1Rocket, this.ship02)){
             console.log('ship 02 hit');
             this.p1Rocket.reset();
             // this.ship02.reset();
             this.shipExplode(this.ship02);
+            this.boom.x -= 5;
         }
         if (this.checkCollision(this.p1Rocket, this.ship01)){
             console.log('ship 01 hit');
             this.p1Rocket.reset();
             // this.ship01.reset();
             this.shipExplode(this.ship01);
+            this.boom.x -= 5;
         }
     }
 
@@ -145,37 +147,22 @@ class Play extends Phaser.Scene{
     }
 
     shipExplode(ship){
-        ship.alpha = 0;                         // temporarily hid ship
+        ship.alpha = 0;                             // temporarily hid ship
         // create explosion sprite at ship's position
-        let boom = this.add.sprite(ship.x, ship.y, 'explosion').setOrigin(0, 0);
-        // this.boom = this.add.sprite(ship.x - 50, ship.y, 'explosion').setOrigin(0, 0);
+        // let boom = this.add.sprite(ship.x, ship.y, 'explosion').setOrigin(0, 0);
+        this.boom = this.add.sprite(ship.x, ship.y, 'explosion').setOrigin(0, 0);
 
-        boom.anims.play('explode');             // play explode animation
-        boom.on('animationcomplete', () => {    // callback after animation completes
-            ship.reset();                       // reset ship position
-            ship.alpha = 1;                     // make ship visible again
-            boom.destroy();                     // remove explosion sprite
+        this.boom.anims.play('explode');            // play explode animation
+        this.boom.on('animationcomplete', () => {   // callback after animation completes
+            ship.reset();                           // reset ship position
+            ship.alpha = 1;                         // make ship visible again
+            this.boom.destroy();                    // remove explosion sprite
+            this.boom.x += 1;
         });
         this.p1Score += ship.points;
         this.scoreLeft.text = this.p1Score;
         this.sound.play('sfx_explosion');
     }
-    // shipExplode(ship){
-    //     ship.alpha = 0;                         // temporarily hid ship
-    //     // create explosion sprite at ship's position
-    //     // let boom = this.add.sprite(ship.x, ship.y, 'explosion').setOrigin(0, 0);
-    //     this.boom = this.add.sprite(ship.x, ship.y, 'explosion').setOrigin(0, 0);
-    //
-    //     this.boom.anims.play('explode');             // play explode animation
-    //     this.boom.on('animationcomplete', () => {    // callback after animation completes
-    //         ship.reset();                       // reset ship position
-    //         ship.alpha = 1;                     // make ship visible again
-    //         this.boom.destroy();                     // remove explosion sprite
-    //         this.boom.x += 1;
-    //     });
-    //     this.p1Score += ship.points;
-    //     this.scoreLeft.text = this.p1Score;
-    // }
 }
 
 
