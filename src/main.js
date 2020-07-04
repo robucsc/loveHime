@@ -2,10 +2,22 @@
 
 // create game configuration object
 let config = {
-    type: Phaser.CANVAS,
+    // type: Phaser.CANVAS,
+    type: Phaser.WEBGL,
     width: 934,
     height: 500,
+    physics: {
+        default: 'arcade',
+        arcade: {
+            debug: true,
+            gravity: {
+                x: 0,
+                y: 0
+            }
+        }
+    },
     scene: [Menu, Play],
+
 };
 
 // create main game object
