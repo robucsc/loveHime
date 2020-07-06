@@ -17,7 +17,6 @@ let config = {
         }
     },
     scene: [Menu, Play],
-
 };
 
 // create main game object
@@ -30,4 +29,4 @@ game.settings = {
 }
 
 // reserve some keyboard bindings
-let keyL, keyLEFT, keyRIGHT, keyUP;
+let keyL, keyLEFT, keyRIGHT, keyUP, keyDOWN;

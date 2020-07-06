@@ -7,9 +7,12 @@ class Menu extends Phaser.Scene{
         // load splash screen
         this.load.image('splash_screen', './assets/loveHimeWide.png');
         // load audio files
-        this.load.audio('sfx_select', './assets/blip_select12.wav');
-        this.load.audio('sfx_explosion', './assets/explosion38.wav');
-        this.load.audio('sfx_rocket', './assets/rocket_shot.wav');
+        this.load.audio('sfx_select', './assets/dodoru.wav');
+        this.load.audio('sfx_explosion', './assets/sagoi.wav');
+        this.load.audio('sfx_rocket', './assets/yeah.wav');
+        this.load.audio('beem', './assets/beem.wav');
+        this.load.audio('bgm', './assets/bgm.wav');
+        this.load.audio('ohno', './assets/ohno.wav');
     }
 
 
@@ -17,6 +20,8 @@ class Menu extends Phaser.Scene{
         // define keys
         keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
         keyRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT)
+        keyUP = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP);
+        keyDOWN = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.Down)
 
         // display splash screen
         this.splashScreen = this.add.tileSprite(0, 0, 934, 500, 'splash_screen').setOrigin(0, 0);
@@ -25,8 +30,8 @@ class Menu extends Phaser.Scene{
         let menuConfig = {
             fontFamily: 'Courier',
             fontSize: '28px',
-            backgroundColor: '#F3B141',
-            color: '#843605',
+            backgroundColor: '#f64ff1',
+            color: '#00FFFF',
             align: 'right',
             padding: {
                 top: 5,
@@ -35,25 +40,23 @@ class Menu extends Phaser.Scene{
             fixedWidth: 0
         }
         // show menu text
-        let centerX = game.config.width/2;
-        let centerY = game.config.height/2;
+        let centerX = game.config.width * .7;
+        let centerY = game.config.height * .4;
         let textSpacer = 64;
 
-        this.add.text(centerX, centerY - textSpacer, 'Love Hime', menuConfig).setOrigin(0.5);
-        this.add.text(centerX, centerY, 'Use arrows ← → to move & (L) to Love', menuConfig).setOrigin(0.5);
-        menuConfig.backgroundColor = '#00FF00';
-        menuConfig.color = '#000';
+        this.add.text(centerX, centerY - textSpacer - textSpacer, 'Love Hime', menuConfig).setOrigin(0.5);
+        menuConfig.backgroundColor = '#00ffff';
+        menuConfig.color = '#008080';
+        this.add.text(centerX, centerY - textSpacer, 'Use arrows ↑ ↓ to move', menuConfig).setOrigin(0.5);
+        this.add.text(centerX, centerY, '(L) to Love', menuConfig).setOrigin(0.5);
+        menuConfig.backgroundColor = '#f64ff1';
+        menuConfig.color = '#00ffff';
         this.add.text(centerX, centerY + textSpacer, 'Press ← for Easy or → for Hard', menuConfig).setOrigin(0.5);
-
-        // menu text
-        // this.add.text(20, 20, "Rocket Patrol Menu");
-        // debug: move to next scene—start playScene from this scene
-        // this.scene.start("playScene")
     }
 
     update(){ // ideally every frame
         if (Phaser.Input.Keyboard.JustDown(keyLEFT)){
-            // easy modo desu
+            // yasashi modo desu
             game.settings = {
                 spaceshipSpeed: 3,
                 gameTimer: 60000
