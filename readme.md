@@ -25,7 +25,7 @@ Open Objectives
         time count down
         time increase
     
-    
+    Loading screen
 
 Finished
 
@@ -48,8 +48,9 @@ Finished
      change resolution
      Make responsive
      Add splash screen
-     Kokoro score
-     heart counting/ display
+     Kokoro display
+        Kokolo math
+        heart counting/ display
      Dropping heart left right controls
      Miku background music
              

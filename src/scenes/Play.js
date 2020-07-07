@@ -6,16 +6,13 @@ class Play extends Phaser.Scene{
 
     preload(){
     // load images/tile sprites
-        this.load.image('rocket', './assets/redHeart.png');
         this.load.image('redHeart', './assets/redHeart.png');
-        this.load.image('spaceship', './assets/flying-miku32.png');
         this.load.image('kittyrun', './assets/kittyRun.png');
         this.load.image('sidewalk', './assets/sidewalk.png');
         this.load.image('buildings', './assets/buildings.png');
         this.load.image('hills', './assets/hills.png');
         this.load.image('sky', './assets/sky.png');
         this.load.image('nightSky', './assets/starfield.png');
-        this.load.image('cross', './assets/white_cross.png');
         this.load.image('circle', './assets/circle-8x8.png');
         this.load.image('moon', './assets/moon.png');
 
@@ -57,7 +54,6 @@ class Play extends Phaser.Scene{
         // place tile sprite/ on background
         this.nightSky = this.add.tileSprite(0, 0, 934, 500, 'nightSky').setOrigin(0, 0);
         var moon = this.add.sprite(48, 32, 'moon').setScale(1, 1).setOrigin(0, 0); // moon desu
-        // moon.alpha = 0;
         this.sky = this.add.tileSprite(0, 0, 934, 500, 'sky').setOrigin(0, 0);
         this.hills = this.add.tileSprite(0, 0, 934, 500, 'hills').setOrigin(0, 0);
         this.buildings = this.add.tileSprite(0, 0, 934, 500, 'buildings').setOrigin(0, 0);
@@ -84,18 +80,17 @@ class Play extends Phaser.Scene{
         this.miku = new CharSprite(this, game.config.width + 192, this.top, 'flyingMiku', 0, 0, false).setOrigin(0, 0);
         // add kitty
         this.kitty = new Runner(this, 32, 364, 'kittyRun', 0, 30, false).setScale(1, 1).setOrigin(0, 0);
-        // add rocket
-        this.p1Rocket = new Rocket(this, this.miku.x, this.miku.y, 'rocket', 0).setScale(0., 0.5).setOrigin(0, 0).setVisible(true);
-        this.myKokoro = new Kokoro(this, this.miku.x, this.miku.y, 'redHeart', 0).setScale(0., 0.5).setOrigin(0, 0).setVisible(true);
-        this.myKokoro.alpha = 1;
+        this.myKokoro = new Kokoro(this, this.miku.x, this.miku.y, 'redHeart', 0).setScale(0.5, 0.5).setOrigin(0, 0);
+        this.myKokoro.alpha = 0;
+
 
         // add collectables
         this.hearts = [new Collectable(this, - 192, this.top, 'redHeart', 0, 10, false).setScale(0.5, 0.5).setOrigin(0, 0),
         new Collectable(this, - 96, this.middle, 'redHeart', 0, 10, false).setScale(0.5, 0.5).setOrigin(0, 0),
         new Collectable(this,  + 0, this.bottom, 'redHeart', 0, 10, false).setScale(0.5, 0.5).setOrigin(0, 0)];
 
-        // add projectial hearts
-        this.kokoro = [this.add.sprite(700, 32, 'redHeart').setScale(0.5, 0.5).setOrigin(0, 0).setVisible(false),
+        // add display hearts
+        this.displayKokoro = [this.add.sprite(700, 32, 'redHeart').setScale(0.5, 0.5).setOrigin(0, 0).setVisible(false),
         this.add.sprite(724, 32, 'redHeart').setScale(0.5, 0.5).setOrigin(0, 0).setVisible(false),
         this.add.sprite(748, 32, 'redHeart').setScale(0.5, 0.5).setOrigin(0, 0).setVisible(false),
         this.add.sprite(772, 32, 'redHeart').setScale(0.5, 0.5).setOrigin(0, 0).setVisible(false),
@@ -235,18 +230,15 @@ class Play extends Phaser.Scene{
         // check heart collection
         if (this.checkCollision(this.miku, this.hearts[0])){
             // console.log('heart 01 hit');
-            // this.p1Rocket.reset();
             this.collected(this.hearts[0]);
             // this.moreTime += 5000;
         }
         if (this.checkCollision(this.miku, this.hearts[1])){
             // console.log('heart 02 hit');
-            // this.p1Rocket.reset();
             this.collected(this.hearts[1]);
         }
         if (this.checkCollision(this.miku, this.hearts[2])){
             // console.log('heart 03 hit');
-            // this.p1Rocket.reset();
             this.collected(this.hearts[2]);
         }
 
@@ -295,10 +287,11 @@ class Play extends Phaser.Scene{
         this.scoreLeft.text = this.p1Score;
         if (this.kokoros <= 5) {
             this.capturedHearts += 1;
+            this.kokoroMeter(this.capturedHearts);
         } else {
             this.capturedHearts = 0;
         }
-        this.kokoroMeter(this.capturedHearts);
+
         this.sound.play('beem');
         collectable.reset(); // reset ship position
     }
@@ -328,20 +321,30 @@ class Play extends Phaser.Scene{
     // display kokoro - this should probably have been a switch statement
     kokoroMeter(capturedHearts){
         if (capturedHearts == 10){
-            this.kokoro[0].setVisible(true);
-            this.kokoros = 1;
+            this.displayKokoro[0].setVisible(true);
+            this.kokoros += 1;
         } else if (capturedHearts == 20){
-            this.kokoro[1].setVisible(true);
-            this.kokoros = 2;
+            this.displayKokoro[1].setVisible(true);
+            this.kokoros += 1;
         } else if (capturedHearts == 30){
-            this.kokoro[2].setVisible(true);
-            this.kokoros = 3;
+            this.displayKokoro[2].setVisible(true);
+            this.kokoros += 1;
         } else if (capturedHearts == 40){
-            this.kokoro[3].setVisible(true);
-            this.kokoros = 4;
+            this.displayKokoro[3].setVisible(true);
+            this.kokoros += 1;
         } else if (capturedHearts == 50){
-            this.kokoro[4].setVisible(true);
-            this.kokoros = 5;
+            this.displayKokoro[4].setVisible(true);
+            this.kokoros += 1;
+        }
+    }
+
+    kokoroDropped(){
+        console.log('the kokoro has been dropped')
+        this.displayKokoro[this.kokoros - 1].setVisible(false);
+        this.kokoros -= 1;
+        this.capturedHearts -= 10;
+        if (this.capturedHearts < 0) {
+            this.capturedHearts = 0;
         }
     }
 

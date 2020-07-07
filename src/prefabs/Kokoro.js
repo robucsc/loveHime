@@ -15,11 +15,15 @@ class Kokoro extends Phaser.GameObjects.Sprite{
         this.moveHeart();
 
         // fire button
-        if (Phaser.Input.Keyboard.JustDown(keyL)  && !this.isFiring){
+        // if (Phaser.Input.Keyboard.JustDown(keyL)  && !this.isFiring && (this.scene.kokoros > 0){
+        if ((Phaser.Input.Keyboard.JustDown(keyL) || Phaser.Input.Keyboard.JustDown(keyLEFT))  && !this.isFiring && (this.scene.kokoros > 0)){
                 console.log('kokoro dropped');
+
                 this.isFiring = true;
                 this.alpha = 1;
+                console.log('alpha state ', this.alpha);
                 this.sfxRocket.play(); // play sfx
+                this.scene.kokoroDropped(); // update the
         }
 
         // if fired move bullet up
@@ -44,6 +48,7 @@ class Kokoro extends Phaser.GameObjects.Sprite{
         this.isFiring = false;
         // this.y = 100;
         this.alpha = 0;
+        console.log('reset alpha', this.alpha)
     }
 
     moveHeart(){
