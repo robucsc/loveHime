@@ -1,22 +1,14 @@
 Love Hime Readme file
 
-Objectives
-
+Open Objectives
     
-    flying Miku sprite sheet (wavy hair, eye blink)
-    flying Miku partical circles
     flying Miku partical hearts
-    flying Miku y movement
     
-    Shooting heart
-    shooting heart left right controls
+    dropping heart
     shooting heart particals
     
     Sounds
     iku yo start sound
-    background music
-        produce
-        add to game
     trigger sounds
         
     connect sounds
@@ -38,7 +30,12 @@ Objectives
 Finished
 
     flying Miku
-    add responive sizing
+    flying Miku sprite sheet (wavy hair, eye blink)
+    flying Miku partical circles
+    flying Miku y movement
+    
+    Animated cat sprite
+    
     Backgrounds - add four, and paralax them
             forground
                 side walk
@@ -51,7 +48,11 @@ Finished
      change resolution
      Make responsive
      Add splash screen
-               
+     Kokoro score
+     heart counting/ display
+     Dropping heart left right controls
+     Miku background music
+             
 Assignment Points
 
     Redesign UI - 50
@@ -60,7 +61,10 @@ Assignment Points
     Parallax - 15
     New title screen - 15
     BGM - 10 
-    Animated sprite - 15
+    Animated protagonist sprite - 15
+    Animated target sprite (cat) - 
     Fade between night and day - 
-    timed crisscross evasion - 
+    Timed crisscross evasion - 
+    Kokoro display/score - 
+    Dropping heart left right controls - 10
     

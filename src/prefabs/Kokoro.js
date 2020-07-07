@@ -1,5 +1,5 @@
 // Rocket prefab
-class Rocket extends Phaser.GameObjects.Sprite{
+class Kokoro extends Phaser.GameObjects.Sprite{
     constructor(scene, x, y, texture, frame) {
         super(scene, x, y, texture, frame);
 
@@ -12,11 +12,11 @@ class Rocket extends Phaser.GameObjects.Sprite{
     }
     update(){
 
-        this.straif();
+        this.moveHeart();
 
         // fire button
         if (Phaser.Input.Keyboard.JustDown(keyL)  && !this.isFiring){
-                console.log('rocket fired');
+                console.log('kokoro dropped');
                 this.isFiring = true;
                 this.alpha = 1;
                 this.sfxRocket.play(); // play sfx
@@ -25,27 +25,28 @@ class Rocket extends Phaser.GameObjects.Sprite{
         // if fired move bullet up
         // if (this.isFiring && this.y >= 108){
         if (this.isFiring){
-            this.alpha = 1;
             this.y += 2;
+            this.x -= 2;
         }
         // reset on miss
         if (this.y >= 475){
-                this.alpha = 0;
+                // this.alpha = 0;
                 this.reset();
         }
 
         if (!this.isFiring){
-            this.x = this.scene.miku.x + 28;
+            this.x = this.scene.miku.x + 30;
             this.y = this.scene.miku.y + 34;
         }
     }
     // reset rocket to the "ground" (bottom of the screen)
     reset(){
         this.isFiring = false;
-        this.y = 100;
+        // this.y = 100;
+        this.alpha = 0;
     }
 
-    straif(){
+    moveHeart(){
         if (keyLEFT.isDown && this.x >= 47){ // is the player moving past the left boundry
             this.x -= 2;
         } else if (keyRIGHT.isDown && this.x <= 598) {

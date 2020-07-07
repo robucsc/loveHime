@@ -1,4 +1,4 @@
-// Spaceship prefab
+// CharSprite prefab
 class CharSprite extends Phaser.GameObjects.Sprite{
     constructor(scene, x, y, texture, frame, pointValue, direction) {
         super(scene, x, y, texture, frame);
@@ -26,7 +26,7 @@ class CharSprite extends Phaser.GameObjects.Sprite{
     moveChar() {
         if (keyUP.isDown && this.y >= 50) { // is the player moving past the left boundry
             this.y -= 2;
-        } else if (keyDOWN.isDown && this.y <= 300) {
+        } else if (keyDOWN.isDown && this.y <= 264) {
             this.y += 2;
         }
     }

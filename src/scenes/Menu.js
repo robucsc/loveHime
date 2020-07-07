@@ -68,8 +68,10 @@ class Menu extends Phaser.Scene{
             // hardo modo desu
             game.settings = {
                 spaceshipSpeed: 4,
-                gameTimer: 45000
+                // gameTimer: 45000
+                gameTimer: 7000
             }
+            this.time.now = 0;
             this.sound.play('sfx_select');
             this.scene.start("playScene");
         }
